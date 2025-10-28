@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../css/Products.css';
 import { Link } from 'react-router-dom';
+const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrlUD = import.meta.env.VITE_API_URL_UPLOADS;
 
 const Products = () => {
     const [products, setProducts] = useState([]); // todos los productos
@@ -18,7 +20,7 @@ const Products = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get("http://localhost:8080/api/productos");
+            const response = await axios.get(`${apiUrl}/api/productos`);
             if (Array.isArray(response.data)) {
                 setProducts(response.data);
                 setFilteredProducts(response.data);
@@ -108,7 +110,7 @@ const Products = () => {
                                     src={
                                         p.img?.[0]?.startsWith("http")
                                             ? p.img[0]
-                                            : `http://localhost:8080/uploads/${p.img?.[0]}`
+                                            : `${apiUrlUD}/uploads/${p.img?.[0]}`
                                     }
                                     alt={p.nombre}
                                 />

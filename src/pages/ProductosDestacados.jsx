@@ -2,6 +2,9 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../css/Products.css';
+const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrlUD = import.meta.env.VITE_API_URL_UPLOADS;
+
 
 const ProductosDestacados = () => {
     const [productos, setProductos] = useState([]);
@@ -12,7 +15,7 @@ const ProductosDestacados = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get("http://localhost:8080/api/productos");
+            const response = await axios.get(`${apiUrl}/api/productos`);
             if (Array.isArray(response.data)) {
                 setProductos(response.data);
             } else {
@@ -36,7 +39,7 @@ const ProductosDestacados = () => {
                             src={
                                 p.img?.[0]?.startsWith("http")
                                     ? p.img[0]
-                                    : `http://localhost:8080/uploads/${p.img?.[0]}`
+                                    : `${apiUrlUD}/uploads/${p.img?.[0]}`
                             }
                             alt={p.nombre}
                         />
@@ -51,4 +54,4 @@ const ProductosDestacados = () => {
     )
 }
 
-export default ProductosDestacados
+export default ProductosDestacados;

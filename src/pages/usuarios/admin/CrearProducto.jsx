@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import '../../../css/NuevoProducto.css'
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const CrearProducto = () => {
     const [formData, setFormData] = useState({
@@ -43,7 +44,7 @@ const CrearProducto = () => {
                 data.append("img", formData.imagen)
             }
 
-            const response = await axios.post("http://localhost:8080/api/productos",
+            const response = await axios.post(`${apiUrl}/api/productos`,
                 data,
                 {
                     withCredentials: true,

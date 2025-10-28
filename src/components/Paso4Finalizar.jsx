@@ -3,6 +3,7 @@ import axios from 'axios';
 import '../css/Paso4Finalizar.css';
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const Paso4Finalizar = ({ formData, cart, total, prevStep }) => {
     const { clearCart } = useCart();
@@ -12,7 +13,7 @@ const Paso4Finalizar = ({ formData, cart, total, prevStep }) => {
         try {
             if (formData.metodoPago === "stripe") {
                 const response = await axios.post(
-                    "http://localhost:8080/api/orders/crear-orden",
+                    `${apiUrl}/api/orders/crear-orden`,
                     {
                         cart,
                         email: formData.email
@@ -43,7 +44,7 @@ const Paso4Finalizar = ({ formData, cart, total, prevStep }) => {
                 };
 
                 const response = await axios.post(
-                    "http://localhost:8080/api/orders/crear-orden",
+                    `${apiUrl}/api/orders/crear-orden`,
                     nuevaOrden
                 );
 

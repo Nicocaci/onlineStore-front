@@ -3,6 +3,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 
 //Creamos el contexto para usarlo en toda la app
@@ -31,7 +32,7 @@ export const CartProvider = ({ children }) => {
 
         const fetchCart = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/carrito/${cartId}`, {
+                const response = await axios.get(`${apiUrl}/api/carrito/${cartId}`, {
                     withCredentials: true,
                 });
                 setCart(response.data.products);
@@ -56,13 +57,13 @@ export const CartProvider = ({ children }) => {
     const addProductFromCart = async (pid, quantity = 1) => {
         try {
             await axios.post(
-                `http://localhost:8080/api/carrito/${cartId}/productos/${pid}`,
+                `${apiUrl}/api/carrito/${cartId}/productos/${pid}`,
                 { quantity },
                 { withCredentials: true }
             );
 
             const response = await axios.get(
-                `http://localhost:8080/api/carrito/${cartId}`,
+                `${apiUrl}/api/carrito/${cartId}`,
                 { withCredentials: true }
             );
 
@@ -77,12 +78,12 @@ export const CartProvider = ({ children }) => {
 
     const removeProductFromCart = async (pid, quantity = 1) => {
         try {
-            await axios.delete(`http://localhost:8080/api/carrito/${cartId}/productos/${pid}`, {
+            await axios.delete(`${apiUrl}/api/carrito/${cartId}/productos/${pid}`, {
                 data: { quantity },
                 withCredentials: true,
             });
 
-            const response = await axios.get(`http://localhost:8080/api/carrito/${cartId}`, { withCredentials: true });
+            const response = await axios.get(`${apiUrl}/api/carrito/${cartId}`, { withCredentials: true });
             setCart(response.data.products);
 
             toast.success("Producto eliminado correctamente");
@@ -95,7 +96,8 @@ export const CartProvider = ({ children }) => {
 
     const clearCart = async () => {
         try {
-            await axios.delete(`http://localhost:8080/api/carrito/${cartId}/productos`, {
+            console.log("🧾 ID del carrito a vaciar:", cartId);
+            await axios.delete(`${apiUrl}/api/carrito/${cartId}/productos`, {
                 withCredentials: true,
             });
             setCart([]);

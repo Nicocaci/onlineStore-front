@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import CartDropDown from './CartDropDown.jsx';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const NavBar = () => {
     const [showAuthModal, setShowAuthModal] = useState(false);
@@ -45,7 +46,7 @@ const NavBar = () => {
                 didOpen: () => Swal.showLoading(),
             });
 
-            await axios.post("http://localhost:8080/api/usuarios/cerrarSesion", {}, { withCredentials: true });
+            await axios.post(`${apiUrl}/api/usuarios/cerrarSesion`, {}, { withCredentials: true });
             localStorage.removeItem('token');
 
             Swal.fire({

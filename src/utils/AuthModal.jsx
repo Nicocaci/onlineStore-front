@@ -3,6 +3,7 @@ import '../css/AuthModal.css';
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useCart } from "../context/CartContext";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 
 
@@ -25,7 +26,7 @@ const AuthModal = ({ isOpen, onClose, type, setType }) => {
     const handleSumbit = async (e) => {
         e.preventDefault();
 
-        const endpoint = type === 'login' ? `http://localhost:8080/api/usuarios/iniciarSesion` : `http://localhost:8080/api/usuarios/registro`;
+        const endpoint = type === 'login' ? `${apiUrl}/api/usuarios/iniciarSesion` : `${apiUrl}/api/usuarios/registro`;
 
         const payload = type === 'login' ?
             { email: formData.email, contraseña: formData.contraseña }

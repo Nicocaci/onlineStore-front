@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useCart } from '../context/CartContext';
 import axios from "axios";
 import "../css/Gracias.css";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const Gracias = () => {
     const navigate = useNavigate();
     const [params] = useSearchParams();
     const [loading, setLoading] = useState(false);
     const [pagoStripe, setPagoStripe] = useState(null);
+    const { clearCart } = useCart();
 
     const sessionId = params.get("session_id"); // viene desde Stripe si el pago fue online
 
@@ -16,8 +19,14 @@ const Gracias = () => {
             if (!sessionId) return; // si no hay session_id, fue pago en efectivo
             setLoading(true);
             try {
-                const res = await axios.get(`http://localhost:8080/api/checkout/session/${sessionId}`);
-                setPagoStripe(res.data); // guardamos los datos del pago
+                const res = await axios.get(`${apiUrl}/api/checkout/session/${sessionId}`);
+                setPagoStripe(res.data);
+
+                // ✅ Si el pago fue exitoso, vaciar el carrito
+                if (res.data.payment_status === "paid") {
+                    clearCart();
+                    console.log("🧹 Carrito vaciado tras compra exitosa");
+                }
             } catch (error) {
                 console.error("Error al verificar pago:", error);
             } finally {

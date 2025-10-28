@@ -3,6 +3,9 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
 import '../css/ItemDetail.css'
+const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrlUD = import.meta.env.VITE_API_URL_UPLOADS;
+
 
 
 const ItemDetail = () => {
@@ -17,7 +20,7 @@ const ItemDetail = () => {
             setLoading(true);
             setError(null);
             try {
-                const response = await axios.get(`http://localhost:8080/api/productos/${prodId}`)
+                const response = await axios.get(`${apiUrl}/api/productos/${prodId}`)
                 console.log("Producto Obtenido:", response.data);
                 setProducto(response.data)
             } catch (error) {
@@ -58,7 +61,7 @@ const ItemDetail = () => {
                     src={
                         producto.img?.[0]?.startsWith("http")
                             ? producto.img[0]
-                            : `http://localhost:8080/uploads/${producto.img?.[0]}`
+                            : `${apiUrlUD}/uploads/${producto.img?.[0]}`
                     }
                     alt={producto.nombre}
                 />

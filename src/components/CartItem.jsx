@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import '../css/CartDropDown.css'
+import '../css/CartDropDown.css';
+const apiUrlUD = import.meta.env.VITE_API_URL_UPLOADS;
 
 const CartItem = ({ item, removeProductFromCart }) => {
     const producto = item.product;
@@ -22,7 +23,7 @@ const CartItem = ({ item, removeProductFromCart }) => {
                         src={
                             producto?.img?.[0]?.startsWith("http")
                                 ? p.img[0]
-                                : `http://localhost:8080/uploads/${producto?.img?.[0]}`
+                                : `${apiUrlUD}/uploads/${producto?.img?.[0]}`
                         }
                         alt={producto?.nombre}
                     />

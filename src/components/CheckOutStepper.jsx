@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/CheckOutStepper.css';
+import '../css/CheckoutStepper.css';
 
 const pasos = ['Datos', 'Pago', 'Envío', 'Confirmar'];
 
