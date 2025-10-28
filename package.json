@@ -19,6 +19,7 @@
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.4",
     "react-toastify": "^11.0.5",
+    "serve": "^14.2.5",
     "sweetalert2": "^11.26.3"
   },
   "devDependencies": {
