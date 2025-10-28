@@ -5,13 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "start": "node server.js",
     "build": "vite build",
-    "start": "serve -s dist -l $PORT --host 0.0.0.0",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
     "axios": "^1.12.2",
+    "express": "^5.1.0",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "nodemon": "^3.1.10",
