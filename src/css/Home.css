@@ -1,0 +1,12 @@
+.titulo {
+    background-color: yellow;
+    color: black;
+}
+
+.img-fondo {
+    background-image: url("/jugadoresFondo.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 50dvh;
+}

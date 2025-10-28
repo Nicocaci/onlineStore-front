@@ -1,0 +1,35 @@
+.titulo-admin {
+    width: 50%;
+    background-color: black;
+    color: white;
+    padding: 15px;
+    margin: auto;
+    margin-top: 2%;
+    border-radius: 15px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+}
+.li-admin {
+    display: flex;
+}
+.link-admin.activo {
+    background-color: #000000;
+    color: #ffffff;
+    display: inline;
+    padding: 10px;
+    border-radius: 10px;
+
+}
+.contenido-admin {
+    width: 50%;
+    margin: auto;
+}
+
+@media (max-width:600px) {
+    .contenido-admin{
+        width: 90%;
+        
+    }
+    .titulo-admin {
+        width: 90%;
+    }
+}

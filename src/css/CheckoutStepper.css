@@ -1,0 +1,67 @@
+.stepper-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    position: relative;
+}
+
+.step-number {
+    width: 30px;
+    height: 30px;
+    background-color: #ccc;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 30px;
+    font-weight: bold;
+    color: white;
+    z-index: 2;
+}
+
+.step-label {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.step-line {
+    position: absolute;
+    top: 15px;
+    right: -50%;
+    width: 100%;
+    height: 2px;
+    background-color: #ccc;
+    z-index: 1;
+}
+
+.step.active .step-number {
+    background-color: #1c24a2;
+}
+
+.step.completed .step-number {
+    background-color: #2ecc71;
+}
+
+.input-100 {
+    width: 100%;
+}
+
+.btn-checkout {
+    display: flex;
+    gap: 10px;
+}
+
+.font-total {
+    font-size: 1.8rem;
+    color: #1c24a2;
+}
+
+.detalle-compra {
+    font-size: 0.8rem;
+}
