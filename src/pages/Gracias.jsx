@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCart } from '../context/CartContext';
 import axios from "axios";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 import "../css/Gracias.css";
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const Gracias = () => {
@@ -22,10 +25,30 @@ const Gracias = () => {
                 const res = await axios.get(`${apiUrl}/api/checkout/session/${sessionId}`);
                 setPagoStripe(res.data);
 
-                // ✅ Si el pago fue exitoso, vaciar el carrito
                 if (res.data.payment_status === "paid") {
-                    clearCart();
-                    console.log("🧹 Carrito vaciado tras compra exitosa");
+                    // 🔹 Intentar obtener el cartId desde el token de la cookie
+                    const token = Cookies.get("access_token");
+                    if (!token) {
+                        console.warn("⚠️ No se encontró access_token en cookies");
+                        return;
+                    }
+
+                    const decoded = jwtDecode(token);
+                    const cartId = decoded.cart;
+
+                    console.log("🧾 ID del carrito a vaciar:", cartId);
+
+                    if (cartId) {
+                        // 🔹 Hacemos el delete directo, sin depender del contexto
+                        await axios.delete(`${apiUrl}/api/carrito/${cartId}/productos`, {
+                            withCredentials: true,
+                        });
+                        console.log("🧹 Carrito vaciado tras compra exitosa");
+                    } else {
+                        console.warn("⚠️ El token no contiene cartId");
+                    }
+                    clearCart(true);
+
                 }
             } catch (error) {
                 console.error("Error al verificar pago:", error);

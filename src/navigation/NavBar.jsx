@@ -74,7 +74,7 @@ const NavBar = () => {
             <div className='login-container center'>
                 <ul className='li-none flex-col-navbar'>
                     <li className='underline-1' onClick={() => openAuthModal('login')}>Iniciar Sesión</li>
-                    <li className='underline-2' onClick={() => openAuthModal('registro')}>Registrarse</li>
+                    <li className='underline-2' onClick={() => openAuthModal('register')}>Registrarse</li>
                     <li className='underline-3' onClick={handleLogOut}>Cerrar Sesión</li>
                 </ul>
             </div>

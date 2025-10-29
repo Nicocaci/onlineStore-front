@@ -5,8 +5,6 @@ import Swal from "sweetalert2";
 import { useCart } from "../context/CartContext";
 const apiUrl = import.meta.env.VITE_API_URL;
 
-
-
 const AuthModal = ({ isOpen, onClose, type, setType }) => {
     const { refreshCartContext } = useCart();
     const [formData, setFormData] = useState({
@@ -17,7 +15,7 @@ const AuthModal = ({ isOpen, onClose, type, setType }) => {
         email: '',
         contraseña: '',
         confirmar: '',
-    })
+    });
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,19 +24,50 @@ const AuthModal = ({ isOpen, onClose, type, setType }) => {
     const handleSumbit = async (e) => {
         e.preventDefault();
 
-        const endpoint = type === 'login' ? `${apiUrl}/api/usuarios/iniciarSesion` : `${apiUrl}/api/usuarios/registro`;
+        // ✅ Validación de contraseña (solo en registro)
+        if (type === 'register') {
+            const password = formData.contraseña;
+            const hasUppercase = /[A-Z]/.test(password);
+            const hasMinLength = password.length >= 8;
 
-        const payload = type === 'login' ?
-            { email: formData.email, contraseña: formData.contraseña }
-            : {
-                nombre: formData.nombre,
-                apellido: formData.apellido,
-                dni: formData.dni,
-                direccion: formData.direccion,
-                email: formData.email,
-                contraseña: formData.contraseña,
-                role: 'user',
+            if (!hasUppercase || !hasMinLength) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Contraseña inválida',
+                    text: 'La contraseña debe tener al menos 8 caracteres y una letra mayúscula.',
+                    confirmButtonColor: '#d33',
+                });
+                return; // evita que siga el proceso de registro
             }
+
+            if (formData.contraseña !== formData.confirmar) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Error',
+                    text: 'Las contraseñas no coinciden.',
+                    confirmButtonColor: '#d33',
+                });
+                return;
+            }
+        }
+
+        const endpoint =
+            type === 'login'
+                ? `${apiUrl}/api/usuarios/iniciarSesion`
+                : `${apiUrl}/api/usuarios/registro`;
+
+        const payload =
+            type === 'login'
+                ? { email: formData.email, contraseña: formData.contraseña }
+                : {
+                    nombre: formData.nombre,
+                    apellido: formData.apellido,
+                    dni: formData.dni,
+                    direccion: formData.direccion,
+                    email: formData.email,
+                    contraseña: formData.contraseña,
+                    role: 'user',
+                };
 
         try {
             const response = await axios.post(endpoint, payload, {
@@ -46,9 +75,9 @@ const AuthModal = ({ isOpen, onClose, type, setType }) => {
             });
             Swal.fire({
                 icon: 'success',
-                title: type === 'login' ? 'Bienvenido a DigitalShop' : 'Registro exitoso',
+                title: type === 'login' ? 'Bienvenido a OnlineStore' : 'Registro exitoso',
                 text: response.data.message,
-                confirmButtonColor: '#ff7d12',
+                confirmButtonColor: '#000000',
             }).then(() => {
                 onClose();
                 refreshCartContext();
@@ -74,15 +103,15 @@ const AuthModal = ({ isOpen, onClose, type, setType }) => {
     };
 
     if (!isOpen) return null;
-return (
-    <div className="modal-overlay">
-        <div className="modal-content-user">
-            <button className="close-btn" onClick={onClose}>×</button>
-            <h2 className='title-user'>{type === 'login' ? 'Iniciar sesión' : 'Registrarse'}</h2>
 
-            <form onSubmit={handleSumbit}>
-                {type === 'register' && (
-                    <>
+    return (
+        <div className="modal-overlay">
+            <div className="modal-content-user">
+                <button className="close-btn" onClick={onClose}>×</button>
+                <h2 className='title-user'>{type === 'login' ? 'Iniciar sesión' : 'Registrarse'}</h2>
+
+                <form onSubmit={handleSumbit}>
+                    {type === 'register' && (
                         <div className='grid-form'>
                             <div className="form-group">
                                 <label>Nombre:</label>
@@ -92,65 +121,61 @@ return (
                                 <label>Apellido:</label>
                                 <input type="text" name="apellido" value={formData.apellido} onChange={handleChange} required />
                             </div>
-                            <div className="form-group ">
+                            <div className="form-group">
                                 <label>DNI/CUIT:</label>
                                 <input type="text" name="dni" value={formData.dni} onChange={handleChange} required />
                             </div>
-                            <div className="form-group  ">
+                            <div className="form-group">
                                 <label>Dirección:</label>
                                 <input type="text" name="direccion" value={formData.direccion} onChange={handleChange} required />
                             </div>
                         </div>
-                    </>
+                    )}
 
-                )}
-
-                <div className='grid-form'>
-                    <div className="form-group">
-                        <label>Email:</label>
-                        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Contraseña:</label>
-                        <input type="password" name="contraseña" value={formData.contraseña} onChange={handleChange} required />
-                    </div>
-
-                    {type === 'register' && (
+                    <div className='grid-form'>
                         <div className="form-group">
-                            <label>Confirmar contraseña:</label>
-                            <input type="password" name="confirmar" value={formData.confirmar} onChange={handleChange} required />
+                            <label>Email:</label>
+                            <input type="email" name="email" value={formData.email} onChange={handleChange} required />
                         </div>
+
+                        <div className="form-group">
+                            <label>Contraseña:</label>
+                            <input type="password" name="contraseña" value={formData.contraseña} onChange={handleChange} required />
+                        </div>
+
+                        {type === 'register' && (
+                            <div className="form-group">
+                                <label>Confirmar contraseña:</label>
+                                <input type="password" name="confirmar" value={formData.confirmar} onChange={handleChange} required />
+                            </div>
+                        )}
+                    </div>
+
+                    <button type="submit" className="submit-btn">
+                        {type === 'login' ? 'Ingresar' : 'Registrarme'}
+                    </button>
+                </form>
+
+                <div className="modal-footer">
+                    {type === 'login' ? (
+                        <p>
+                            ¿No tenés cuenta?{" "}
+                            <button className="link-btn" onClick={() => setType('register')}>
+                                Registrate
+                            </button>
+                        </p>
+                    ) : (
+                        <p>
+                            ¿Ya tenés cuenta?{" "}
+                            <button className="link-btn" onClick={() => setType('login')}>
+                                Iniciar sesión
+                            </button>
+                        </p>
                     )}
                 </div>
-                <button type="submit" className="submit-btn">
-                    {type === 'login' ? 'Ingresar' : 'Registrarme'}
-                </button>
-            </form>
-
-            <div className="modal-footer">
-                {type === 'login' ? (
-                    <p>
-                        ¿No tenés cuenta?{" "}
-                        <button className="link-btn" onClick={() => setType('register')}>
-                            Registrate
-                        </button>
-                    </p>
-                ) : (
-                    <p>
-                        ¿Ya tenés cuenta?{" "}
-                        <button className="link-btn" onClick={() => setType('login')}>
-                            Iniciar sesión
-                        </button>
-                    </p>
-                )}
             </div>
         </div>
-    </div>
-)
-}
-
-
-
+    );
+};
 
 export default AuthModal;

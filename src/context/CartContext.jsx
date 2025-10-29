@@ -94,19 +94,36 @@ export const CartProvider = ({ children }) => {
     };
 
 
-    const clearCart = async () => {
+    const clearCart = async (forceLocalOnly = false) => {
         try {
+            // 🧹 Si solo queremos limpiar el estado local (por ejemplo desde Gracias.jsx)
+            if (forceLocalOnly) {
+                setCart([]);
+                console.log("🧼 Carrito limpiado localmente");
+                return;
+            }
+
+            // Si no hay cartId, solo limpiamos localmente
+            if (!cartId) {
+                console.warn("⚠️ No hay cartId, limpiando solo el estado local");
+                setCart([]);
+                return;
+            }
+
             console.log("🧾 ID del carrito a vaciar:", cartId);
             await axios.delete(`${apiUrl}/api/carrito/${cartId}/productos`, {
                 withCredentials: true,
             });
+
             setCart([]);
-            toast.success("Carrito vaciado correctamente")
+            toast.success("Carrito vaciado correctamente");
         } catch (error) {
             console.error("Error al vaciar carrito:", error);
             toast.error("Error al vaciar carrito");
         }
-    }
+    };
+
+
 
     const total = () => {
         if (!cart || cart.length === 0) return 0;

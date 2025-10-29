@@ -21,7 +21,7 @@
   max-width: 400px;
   position: relative;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  border: 2px solid #ff7d12;
+  border: 2px solid #000000;
 }
 
 /* Botón de cerrar */
@@ -52,7 +52,7 @@
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
-  color: #ff7d12;
+  color: #000000;
 }
 
 .form-group input {
@@ -62,14 +62,14 @@
   border: 1px solid #ccc;
 }
 .title-user{
-  color: #1c25a2;
+  color: #000000;
 }
 /* Botón submit */
 .submit-btn {
   width: 100%;
   padding: 10px;
-  background-color: #ff7d12;
-  color: black;
+  background-color: #000000;
+  color: #ffffff;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -77,7 +77,7 @@
   font-weight: 700;
 }
 .submit-btn:hover{
-  background-color: #1c25a2;
+  background-color: #636363;
   color: white;
   transition: 1s;
 }
@@ -87,7 +87,7 @@
 .link-btn {
   background: none;
   border: none;
-  color: #ff7d12;
+  color: #000000;
   font-weight: 700;
   cursor: pointer;
   text-decoration: underline;

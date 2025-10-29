@@ -1,27 +1,43 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import axios from 'axios';
 import '../css/Paso4Finalizar.css';
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext'; // 👈 IMPORTANTE
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const Paso4Finalizar = ({ formData, cart, total, prevStep }) => {
     const { clearCart } = useCart();
-    const navigate = useNavigate()
+    const { user } = useContext(AuthContext); // 👈 obtenemos el usuario logueado
+    const navigate = useNavigate();
 
     const handleConfirmar = async () => {
         try {
             if (formData.metodoPago === "stripe") {
+                // 👇 validamos que haya user y cartId
+                const cartId = user?.cart;
+                if (!cartId) {
+                    console.warn("⚠️ No se encontró cartId en el usuario logueado.");
+                }
+
                 const response = await axios.post(
                     `${apiUrl}/api/orders/crear-orden`,
                     {
                         cart,
-                        email: formData.email
+                        email: formData.email,
+                        cartId: cartId || null // 👈 enviamos el cartId al backend
+                    },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${user?.token}`, // 👈 opcional, si tu backend valida el token
+                        },
                     }
                 );
 
                 // Redirige al checkout de Stripe
                 window.location.href = response.data.url;
+
             } else {
                 // Flujo normal para pago en efectivo
                 const nuevaOrden = {
@@ -45,7 +61,12 @@ const Paso4Finalizar = ({ formData, cart, total, prevStep }) => {
 
                 const response = await axios.post(
                     `${apiUrl}/api/orders/crear-orden`,
-                    nuevaOrden
+                    nuevaOrden,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${user?.token}`,
+                        },
+                    }
                 );
 
                 alert("✅ ¡Compra confirmada! Gracias por tu pedido.");
@@ -75,7 +96,6 @@ const Paso4Finalizar = ({ formData, cart, total, prevStep }) => {
                         ? "Efectivo (al recibir)"
                         : "Stripe (Tarjeta de crédito/débito)"}
                 </p>
-
             </section>
 
             <section className="resumen-carrito">

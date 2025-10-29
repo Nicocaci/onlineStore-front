@@ -16,6 +16,9 @@ export const AuthProvider = ({ children }) => {
                 setUser({
                     id: decoded.id || decoded._id,
                     role: decoded.role,
+                    email: decoded.email,
+                    direccion: decoded.direccion,
+                    cart: decoded.cart, // ✅ AGREGAR ESTO
                     token
                 });
             } catch (error) {
@@ -26,24 +29,25 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
     }, []);
 
-
     const login = (userData) => {
         setUser({
             id: userData.id || userData._id,
             role: userData.role,
+            email: userData.email,
+            direccion: userData.direccion,
+            cart: userData.cart, // ✅ AGREGAR ESTO TAMBIÉN
             token: userData.token
-        })
-    }
-    
+        });
+    };
+
     const logOut = () => {
         Cookies.remove('access_token');
         setUser(null);
     };
 
     return (
-        <AuthContext.Provider value={{user, login, loading, logOut}}>
-                {children}
+        <AuthContext.Provider value={{ user, login, loading, logOut }}>
+            {children}
         </AuthContext.Provider>
-    )
-
-}
+    );
+};
