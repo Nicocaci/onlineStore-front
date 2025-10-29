@@ -73,7 +73,7 @@ const Gracias = () => {
                         <p>
                             Monto: <strong>{(pagoStripe.amount_total / 100).toFixed(2)} {pagoStripe.currency.toUpperCase()}</strong>
                         </p>
-                        <p>ID de transacción: {pagoStripe.id}</p>
+                        <p className="transaccion">ID de transacción: {pagoStripe.id}</p>
                     </>
                 ) : !sessionId ? (
                     <p>

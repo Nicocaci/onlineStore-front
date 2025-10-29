@@ -108,11 +108,11 @@ const Paso4Finalizar = ({ formData, cart, total, prevStep }) => {
                         </li>
                     ))}
                 </ul>
-                <h4 className="total-compra">Total: ${total()}</h4>
+                <h4 className="total-compra">Total: ${total().toLocaleString('es-AR')}</h4>
             </section>
 
             <div className="btn-checkout">
-                <button type="button" onClick={prevStep}>Atrás</button>
+                <button type="button" className='btn-atras' onClick={prevStep}>Atrás</button>
                 <button
                     type="button"
                     onClick={handleConfirmar}

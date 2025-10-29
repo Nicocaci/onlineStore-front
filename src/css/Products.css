@@ -70,6 +70,27 @@
     border: 1px solid #ccc;
 }
 
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background: white;
+    cursor: pointer;
+}
+
+.pagination button.active {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+
 @media (max-width: 600px) {
     .card-container {
         grid-template-columns: repeat(1, 1fr);

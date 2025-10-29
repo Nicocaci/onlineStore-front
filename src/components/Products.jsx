@@ -10,9 +10,13 @@ const Products = () => {
     const [filteredProducts, setFilteredProducts] = useState([]); // productos filtrados
     const [searchTerm, setSearchTerm] = useState(''); // texto de búsqueda
     const [selectedCategory, setSelectedCategory] = useState(''); // categoría seleccionada
-    const [marcas, setMarcas] = useState('');
+    const [marcas, setMarcas] = useState([]);
     const [selectedMarca, setSelectedMarca] = useState('');
     const [categories, setCategories] = useState([]); // lista de categorías
+
+    // ⚡ Paginación
+    const [currentPage, setCurrentPage] = useState(1);
+    const [productsPerPage] = useState(6); // productos por página
 
     useEffect(() => {
         fetchProducts();
@@ -24,11 +28,12 @@ const Products = () => {
             if (Array.isArray(response.data)) {
                 setProducts(response.data);
                 setFilteredProducts(response.data);
-                // Obtener categorías únicas
+
+                // Obtener categorías y marcas únicas
                 const uniqueCategories = [...new Set(response.data.map(p => p.categoria))];
-                const filtroMarcas = [...new Set(response.data.map(p => p.marca))];
+                const uniqueMarcas = [...new Set(response.data.map(p => p.marca))];
                 setCategories(uniqueCategories);
-                setMarcas(filtroMarcas);
+                setMarcas(uniqueMarcas);
             } else {
                 console.error("La API no devolvió un array", response.data);
                 setProducts([]);
@@ -54,12 +59,20 @@ const Products = () => {
         }
 
         if (selectedMarca !== '') {
-            filtered = filtered.filter(p => p.marca === selectedMarca)
+            filtered = filtered.filter(p => p.marca === selectedMarca);
         }
 
         setFilteredProducts(filtered);
+        setCurrentPage(1); // resetear a la primera página al cambiar filtros
     }, [searchTerm, selectedCategory, selectedMarca, products]);
 
+    // 🔹 Paginación
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+
+    const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     if (!products.length) return <div>Cargando productos...</div>;
 
@@ -87,6 +100,7 @@ const Products = () => {
                         <option key={cat} value={cat}>{cat}</option>
                     ))}
                 </select>
+
                 <select
                     value={selectedMarca}
                     onChange={(e) => setSelectedMarca(e.target.value)}
@@ -101,10 +115,10 @@ const Products = () => {
 
             {/* 🛍️ Lista de productos */}
             <div className='card-container'>
-                {filteredProducts.length > 0 ? (
-                    filteredProducts.map((p) => (
+                {currentProducts.length > 0 ? (
+                    currentProducts.map((p) => (
                         <Link className='link-none' key={p._id} to={`/producto/${p._id}`}>
-                            <div className='card' key={p._id}>
+                            <div className='card'>
                                 <img
                                     className='img-card'
                                     src={
@@ -116,7 +130,7 @@ const Products = () => {
                                 />
                                 <div className='card-content'>
                                     <p>{p.nombre}</p>
-                                    <p className='card-precio'>${p.precio}</p>
+                                    <p className='card-precio'>${p.precio.toLocaleString('es-AR')}</p>
                                 </div>
                             </div>
                         </Link>
@@ -125,6 +139,21 @@ const Products = () => {
                     <p>No se encontraron productos.</p>
                 )}
             </div>
+
+            {/* 🔹 Paginación */}
+            {totalPages > 1 && (
+                <div className="pagination">
+                    {Array.from({ length: totalPages }, (_, i) => (
+                        <button
+                            key={i + 1}
+                            onClick={() => paginate(i + 1)}
+                            className={currentPage === i + 1 ? "active" : ""}
+                        >
+                            {i + 1}
+                        </button>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

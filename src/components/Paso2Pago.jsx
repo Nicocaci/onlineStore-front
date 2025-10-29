@@ -12,18 +12,6 @@ const Paso2Pago = ({ formData, updateFormData, nextStep, prevStep }) => {
     return (
         <form onSubmit={handleNext} className="checkout-form">
             <h3>Elegí una forma de pago</h3>
-
-            <label className="radio-option">
-                <input
-                    type="radio"
-                    name="metodoPago"
-                    value="efectivo"
-                    checked={formData.metodoPago === "efectivo"}
-                    onChange={handleSelect}
-                />
-                Efectivo (al recibir)
-            </label>
-
             <label className="radio-option">
                 <input
                     type="radio"

@@ -74,12 +74,18 @@
     }
 
     .seccion-footer2 {
+        display: flex;
+        justify-content: center;
         margin: 0px;
         padding: 15px;
         font-size: 12px;
+
     }
 
     .footer-desc{
         font-size: 15px;
+    }
+    .redes {
+        gap: 15px;
     }
 }

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import '../css/CartDropDown.css';
 const apiUrlUD = import.meta.env.VITE_API_URL_UPLOADS;
 
-const CartItem = ({ item, removeProductFromCart }) => {
+const CartItem = ({ item, removeProductFromCart, clearCart }) => {
     const producto = item.product;
     const [qtyToRemove, setQtyToRemove] = useState(1);
 
@@ -34,13 +34,13 @@ const CartItem = ({ item, removeProductFromCart }) => {
                         <h4>$ {producto?.precio.toLocaleString('es-AR')}</h4>
                     </div>
                 </div>
-
                 <label className='label-cart'>Eliminar cantidad:</label>
                 <button className="remove-btn" onClick={handleRemove}>
                     Eliminar
                 </button>
             </div>
         </li>
+        
     )
 }
 

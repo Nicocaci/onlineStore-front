@@ -143,6 +143,19 @@
     gap: 10px;
 }
 
+.clear-cart-btn{
+    background-color: black;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.clear-cart-btn:hover{
+        transition: 1s;
+    background-color: #05020079;
+}
 
 @keyframes fadeIn {
     from {

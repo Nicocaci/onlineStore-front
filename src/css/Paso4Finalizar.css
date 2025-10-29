@@ -30,7 +30,14 @@
     justify-content: space-between;
     margin-top: 20px;
 }
-
+.btn-atras{
+    background-color: #b4412d;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
 .btn-confirmar {
     background-color: #28a745;
     color: #fff;

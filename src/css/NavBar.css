@@ -22,6 +22,9 @@
     text-decoration: none;
     color: white;
 }
+.logo{
+    width: 100px;
+}
 
 .logo-cart {
     background-color: white;
@@ -133,7 +136,7 @@
         display: flex;
     }
 
-    .logo {
+    .logo-container {
         text-align: center;
         flex: 1;
     }
@@ -142,7 +145,7 @@
         order: 1;
     }
 
-    .logo {
+    .logo-container {
         order: 2;
     }
 
@@ -156,6 +159,9 @@
 
     .login-container {
         font-size: 13px;
+    }
+    .logo{
+        width: 80px;
     }
 }
 

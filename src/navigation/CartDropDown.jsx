@@ -7,7 +7,7 @@ import '../css/CartDropDown.css';
 
 
 const CartDropDown = ({ visible, onClose }) => {
-    const { cart, removeProductFromCart, total } = useCart();
+    const { cart, removeProductFromCart, total, clearCart } = useCart();
     const dropdownRef = useRef(null);
 
     useEffect(() => {
@@ -46,6 +46,7 @@ const CartDropDown = ({ visible, onClose }) => {
                                     key={item._id}
                                     item={item}
                                     removeProductFromCart={removeProductFromCart}
+                                    clearCart={clearCart}
                                 />
                             ) : (
                                 <li key={item._id} className="cart-item empty-product">

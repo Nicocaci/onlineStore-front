@@ -82,8 +82,8 @@ const NavBar = () => {
             {/* NAVBAR */}
             <div className='navbar-container'>
                 {/* Logo a la izquierda */}
-                <div className='logo'>
-                    <h1>LOGO</h1>
+                <div className='logo-container'>
+                        <a href="/"><img className='logo'  src="/OnlineStoreLogo.png" alt="Logo Tienda" /></a>
                 </div>
 
                 {/* Menú centrado */}
